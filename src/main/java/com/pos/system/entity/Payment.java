@@ -39,5 +39,5 @@ public class Payment {
     private BigDecimal TransferredExcess;
 
     @OneToOne(mappedBy = "payment")
-    private Payment payment;
+    private Refund refund;
 }

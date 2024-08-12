@@ -31,7 +31,7 @@ public class Batch {
     @Column(name = "created_date", columnDefinition = "DATETIME")
     private Date createdDate;
 
-    @Column(name = "created_by", columnDefinition = "DATETIME")
+    @JoinColumn(name = "created_by")
     @ManyToOne
     private ApplicationUser createdBy;
 

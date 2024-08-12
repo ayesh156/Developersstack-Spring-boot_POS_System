@@ -11,16 +11,16 @@ public class SystemAdaptorUser implements UserDetails {
     private final String password;
     private final boolean isAccountNonExpired;
     private final boolean isCredentialsNonExpired;
-    private final boolean isCredentialsNonLocked;
+    private final boolean isAccountNonLocked;
     private final boolean isEnabled;
     private final Set<? extends GrantedAuthority> authorities;
 
-    public SystemAdaptorUser(String username, String password, boolean isAccountNonExpired, boolean isCredentialsNonExpired, boolean isCredentialsNonLocked, boolean isEnabled, Set<? extends GrantedAuthority> authorities) {
+    public SystemAdaptorUser(String username, String password, boolean isAccountNonExpired, boolean isCredentialsNonExpired, boolean isAccountNonLocked, boolean isEnabled, Set<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isCredentialsNonLocked = isCredentialsNonLocked;
+        this.isAccountNonLocked = isAccountNonLocked;
         this.isEnabled = isEnabled;
         this.authorities = authorities;
     }
@@ -48,7 +48,7 @@ public class SystemAdaptorUser implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked();
+        return isAccountNonLocked;
     }
 
     @Override

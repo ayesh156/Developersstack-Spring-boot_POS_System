@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity(name="product_has_batch")
@@ -29,3 +30,4 @@ public class ProductHasBatch {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 }
+
