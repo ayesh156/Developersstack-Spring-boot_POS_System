@@ -31,22 +31,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.secretKey = secretKey;
     }
 
+    // localhost:8080/login->post->username,password
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            RequestUserLoginDto dto = new ObjectMapper().readValue(request.getInputStream(), RequestUserLoginDto.class);
+            RequestUserLoginDto dto =
+                    new ObjectMapper().readValue(request.getInputStream(),
+                            RequestUserLoginDto.class);
+            System.out.println(dto.getUsername());
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     dto.getUsername(),
                     dto.getPassword()
             );
             return authenticationManager.authenticate(authentication);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities",authResult.getAuthorities())
@@ -55,8 +60,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                         java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays()))
                 ).signWith(secretKey)
                 .compact();
-//        response.addHeader("Authorization", jwtConfig.getTokenPrefix()+token);
-        response.addHeader(HttpHeaders.AUTHORIZATION, jwtConfig.getTokenPrefix()+token);
+        // response.addHeader("Authorization",jwtConfig.getTokenPrefix()+token);// Bearer sdhghkhjkh45jk4h535hkjhdf
+        response.addHeader(HttpHeaders.AUTHORIZATION,jwtConfig.getTokenPrefix()+token);
     }
 
     @Override

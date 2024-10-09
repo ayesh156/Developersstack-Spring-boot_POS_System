@@ -1,10 +1,7 @@
 package com.pos.system.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Blob;
 import java.util.Date;
@@ -16,6 +13,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Batch {
     @Id
     @Column(name = "batch_id", length = 80)

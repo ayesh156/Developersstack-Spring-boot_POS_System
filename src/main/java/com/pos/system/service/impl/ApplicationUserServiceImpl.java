@@ -1,5 +1,6 @@
 package com.pos.system.service.impl;
 
+import com.pos.system.dto.request.security.RequestUserDto;
 import com.pos.system.entity.ApplicationUser;
 import com.pos.system.entity.UserRole;
 import com.pos.system.exceptions.DuplicateEntryException;
@@ -46,7 +47,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
             if(ur.getRole().equals("ADMIN")){
                 grantedAuthorities.addAll(ADMIN.grantedAuthorities());
             }
-            if(ur.getRole().equals("ADMIN")){
+            if(ur.getRole().equals("USER")){
                 grantedAuthorities.addAll(USER.grantedAuthorities());
             }
         }
@@ -87,6 +88,35 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
                 .isEnabled(true)
                 .username("ayesh.info@gmail.com")
                 .password(passwordEncoder.encode("1234"))
+                .build());
+
+    }
+
+    @Override
+    public void create(RequestUserDto dto) {
+        Optional<ApplicationUser> selectedUserData = userRepo.findByUsername(dto.getUsername());
+        if(selectedUserData.isPresent()){
+            throw new DuplicateEntryException("Username was found");
+        }
+
+        Optional<UserRole> selectedRoleData = userRoleRepo.findByRole("USER");
+        if (selectedRoleData.isEmpty()){
+            throw new EntryNotFoundException("Role not found");
+        }
+
+        Set<UserRole> userRoles = new HashSet<>();
+        userRoles.add(selectedRoleData.get());
+
+        userRepo.save(ApplicationUser.builder()
+                .userId(UUID.randomUUID().toString())
+                .fullName(dto.getFullName())
+                .userRoles(userRoles)
+                .isAccountNonExpired(true)
+                .isCredentialsNonLocked(true)
+                .isCredentialsNonExpired(true)
+                .isEnabled(true)
+                .username(dto.getUsername())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .build());
 
     }

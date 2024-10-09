@@ -1,10 +1,7 @@
 package com.pos.system.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.sql.Blob;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Product {
     @Id
     @Column(name = "product_id", length = 80)

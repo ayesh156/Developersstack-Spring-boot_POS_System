@@ -31,9 +31,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfiguration {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserServiceImpl applicationUserService;
     private final SecretKey secretKey;
-    private final  JwtConfig jwtConfig;
+    private final JwtConfig jwtConfig;
 
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserServiceImpl applicationUserService, SecretKey secretKey, JwtConfig jwtConfig) {
+    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserServiceImpl applicationUserService,
+                                     SecretKey secretKey, JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
         this.secretKey = secretKey;
@@ -46,7 +47,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfiguration {
     ) throws Exception {
         CorsConfiguration c = new CorsConfiguration();
         c.setAllowedOrigins(List.of("*"));
-        c.setAllowedMethods(List.of("PUT","GET","POST","DELETE","OPTION","PATCH"));
+        c.setAllowedMethods(List.of("PUT", "GET", "POST", "DELETE", "OPTION", "PATCH"));
         c.setAllowedHeaders(List.of("*"));
         c.setAllowCredentials(true);
         c.setExposedHeaders(List.of(HttpHeaders.AUTHORIZATION));
@@ -63,12 +64,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfiguration {
                                 .authenticated());
         return http.build();
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -76,5 +75,4 @@ public class ApplicationSecurityConfig extends WebSecurityConfiguration {
         provider.setUserDetailsService(applicationUserService);
         return provider;
     }
-
 }
